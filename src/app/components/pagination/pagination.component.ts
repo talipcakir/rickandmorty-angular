@@ -12,7 +12,9 @@ export class PaginationComponent {
   @Input()
   pageSize: any;
   @Input()
-  loading: boolean;
+  pageIndex: any;
+  @Input()
+  loading: boolean | null;
 
   @Output()
   page: EventEmitter<number> = new EventEmitter();

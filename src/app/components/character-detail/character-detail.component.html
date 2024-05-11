@@ -11,12 +11,14 @@
     </div>
   </mat-card-header>
   <mat-list role="list">
-    <mat-list-item><b>Gender: </b> {{character?.gender}}</mat-list-item>
-    <mat-list-item><b>Status: </b> {{character?.status}}</mat-list-item>
-    <mat-list-item><b>Species: </b> {{character?.species}}</mat-list-item>
-    <mat-list-item><b>Type: </b> {{character?.type ? character?.type : "-"}}</mat-list-item>
-    <mat-list-item><b>Location: </b> {{character?.location?.name}}</mat-list-item>
-    <mat-list-item><b>Origin: </b> {{character?.origin?.name}}</mat-list-item>
+    <mat-list-item><b>Gender: </b> {{ character?.gender }}</mat-list-item>
+    <mat-list-item><b>Status: </b> {{ character?.status }}</mat-list-item>
+    <mat-list-item><b>Species: </b> {{ character?.species }}</mat-list-item>
+    <mat-list-item><b>Type: </b> {{ character?.type ? character?.type : "-" }}</mat-list-item>
+    <mat-list-item><b>Location: </b> {{ character?.location?.name }}</mat-list-item>
+    <mat-list-item><b>Origin: </b> {{ character?.origin?.name }}</mat-list-item>
   </mat-list>
   <img [ngSrc]="character.image" priority height="500" width="500" [alt]="character?.name">
 </mat-card>
+<app-pagination [pageSize]="1" [length]="paging.count" [pageIndex]="character.id"
+                (page)="changeCharacter($event)"></app-pagination>
