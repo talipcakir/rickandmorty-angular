@@ -1,0 +1,21 @@
+<mat-card>
+  <img priority class="cursor-pointer" (click)="click(character.id)" mat-card-image [ngSrc]="character.image"
+       [alt]="character.name" width="300" height="300">
+  <mat-card-content>
+    <h1 class="cursor-pointer" (click)="click(character.id)">
+      {{ character.name }}
+    </h1>
+    <div class="detailLine">
+      <b>Status: </b>{{ character.status }}
+    </div>
+    <div class="detailLine">
+      <b>Species: </b>{{ character.species }}
+    </div>
+    <div class="detailLine">
+      <b>Gender: </b>{{ character.gender }}
+    </div>
+    <div class="actionLine">
+      <button (click)="click(character.id)" mat-flat-button color="primary">Character Details</button>
+    </div>
+  </mat-card-content>
+</mat-card>

@@ -1,0 +1,22 @@
+<mat-spinner *ngIf="loading$ | async"></mat-spinner>
+<mat-card fxLayout="row wrap" fxLayoutAlign="space-between none" fxLayoutGap="10px">
+  <mat-card-header fxFill fxLayout="row" fxLayoutAlign="space-between none" fxLayoutGap="10px">
+    <mat-card-title>
+      <h1>
+        {{ character.name }}
+      </h1>
+    </mat-card-title>
+    <div class="characterId">
+      #{{ character.id }}
+    </div>
+  </mat-card-header>
+  <mat-list role="list">
+    <mat-list-item><b>Gender: </b> {{character?.gender}}</mat-list-item>
+    <mat-list-item><b>Status: </b> {{character?.status}}</mat-list-item>
+    <mat-list-item><b>Species: </b> {{character?.species}}</mat-list-item>
+    <mat-list-item><b>Type: </b> {{character?.type ? character?.type : "-"}}</mat-list-item>
+    <mat-list-item><b>Location: </b> {{character?.location?.name}}</mat-list-item>
+    <mat-list-item><b>Origin: </b> {{character?.origin?.name}}</mat-list-item>
+  </mat-list>
+  <img [ngSrc]="character.image" priority height="500" width="500" [alt]="character?.name">
+</mat-card>

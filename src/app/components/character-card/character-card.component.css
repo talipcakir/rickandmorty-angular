@@ -1,0 +1,13 @@
+mat-card {
+  width: 300px;
+  max-width: 300px;
+}
+
+.detailLine {
+  margin-bottom: 5px;
+}
+
+.actionLine {
+  text-align: center;
+  margin: 15px 0;
+}
