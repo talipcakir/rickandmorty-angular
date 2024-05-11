@@ -20,5 +20,5 @@
   </mat-list>
   <img [ngSrc]="character.image" priority height="500" width="500" [alt]="character?.name">
 </mat-card>
-<app-pagination [pageSize]="1" [length]="paging.count" [pageIndex]="character.id"
+<app-pagination [pageSize]="1" [length]="paging.count" [pageIndex]="character.id-1"
                 (page)="changeCharacter($event)"></app-pagination>
