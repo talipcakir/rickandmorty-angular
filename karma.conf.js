@@ -1,15 +1,17 @@
-// Karma configuration.
+// Karma configuration for the @angular/build:karma builder.
+// The builder appends its own asset/polyfills plugins on top of this config,
+// so we only declare the standard Karma frameworks/plugins plus a
+// sandbox-free launcher for containerised CI.
 // See https://karma-runner.github.io/6.4/config/configuration-file.html
 module.exports = function (config) {
   config.set({
     basePath: '',
-    frameworks: ['jasmine', '@angular-devkit/build-angular'],
+    frameworks: ['jasmine'],
     plugins: [
       require('karma-jasmine'),
       require('karma-chrome-launcher'),
       require('karma-jasmine-html-reporter'),
       require('karma-coverage'),
-      require('@angular-devkit/build-angular/plugins/karma'),
     ],
     client: {
       jasmine: {},
@@ -24,7 +26,7 @@ module.exports = function (config) {
       reporters: [{ type: 'html' }, { type: 'text-summary' }],
     },
     reporters: ['progress', 'kjhtml'],
-    browsers: ['Chrome'],
+    browsers: ['ChromeHeadless'],
     customLaunchers: {
       ChromeHeadlessCI: {
         base: 'ChromeHeadless',
