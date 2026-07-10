@@ -1,0 +1,14 @@
+<mat-toolbar color="primary" class="header">
+  <a class="header__brand" routerLink="/characters">{{ title() }}</a>
+
+  <nav class="header__nav">
+    <a
+      mat-button
+      routerLink="/characters"
+      routerLinkActive="header__link--active"
+      [routerLinkActiveOptions]="{ exact: false }"
+    >
+      Characters
+    </a>
+  </nav>
+</mat-toolbar>

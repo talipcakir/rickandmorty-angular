@@ -1,29 +1,24 @@
-import {ApplicationConfig, importProvidersFrom} from '@angular/core';
-import {provideRouter} from '@angular/router';
+import {
+  ApplicationConfig,
+  provideBrowserGlobalErrorListeners,
+  provideZonelessChangeDetection,
+} from '@angular/core';
+import { provideRouter, withComponentInputBinding, withInMemoryScrolling } from '@angular/router';
+import { provideHttpClient, withFetch } from '@angular/common/http';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
-import {routes} from './app.routes';
-import {provideAnimationsAsync} from '@angular/platform-browser/animations/async';
-import {RamState} from "./core/states/ram.state";
-import {NgxsModule} from "@ngxs/store";
-import {NgxsReduxDevtoolsPluginModule} from '@ngxs/devtools-plugin';
-import {NgxsStoragePluginModule} from '@ngxs/storage-plugin';
-import {provideHttpClient} from '@angular/common/http';
+import { routes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideRouter(routes),
-    importProvidersFrom(NgxsModule.forRoot([
-      RamState
-    ], {developmentMode: false})),
-    importProvidersFrom(
-      NgxsStoragePluginModule.forRoot()
+    provideBrowserGlobalErrorListeners(),
+    provideZonelessChangeDetection(),
+    provideRouter(
+      routes,
+      withComponentInputBinding(),
+      withInMemoryScrolling({ scrollPositionRestoration: 'enabled' }),
     ),
-    importProvidersFrom(
-      NgxsReduxDevtoolsPluginModule.forRoot({
-        disabled: false,
-      })
-    ),
-    provideHttpClient(),
+    provideHttpClient(withFetch()),
     provideAnimationsAsync(),
-  ]
+  ],
 };

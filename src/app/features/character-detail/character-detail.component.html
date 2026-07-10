@@ -1,0 +1,73 @@
+<section class="detail">
+  <div class="detail__progress" aria-live="polite">
+    @if (isLoading()) {
+      <mat-progress-bar mode="indeterminate" />
+    }
+  </div>
+
+  @if (hasError()) {
+    <div class="detail__state">
+      <mat-icon class="detail__state-icon">person_off</mat-icon>
+      <p>We couldn't load this character.</p>
+      <button mat-flat-button color="primary" (click)="retry()">Try again</button>
+    </div>
+  } @else if (character(); as character) {
+    <mat-card appearance="outlined" class="detail__card">
+      <img
+        class="detail__image"
+        [ngSrc]="character.image"
+        [alt]="character.name"
+        width="300"
+        height="300"
+        priority
+      />
+
+      <div class="detail__body">
+        <header class="detail__header">
+          <h1 class="detail__name">{{ character.name }}</h1>
+          <span class="detail__id">#{{ character.id }}</span>
+        </header>
+
+        <mat-chip-set aria-label="Status and species">
+          <mat-chip [class]="'detail__chip--' + character.status.toLowerCase()">
+            {{ character.status }}
+          </mat-chip>
+          <mat-chip>{{ character.species }}</mat-chip>
+          <mat-chip>{{ character.gender }}</mat-chip>
+        </mat-chip-set>
+
+        <mat-list role="list" class="detail__list">
+          <mat-list-item>
+            <span matListItemTitle>Type</span>
+            <span matListItemLine>{{ character.type || '—' }}</span>
+          </mat-list-item>
+          <mat-list-item>
+            <span matListItemTitle>Origin</span>
+            <span matListItemLine>{{ character.origin.name }}</span>
+          </mat-list-item>
+          <mat-list-item>
+            <span matListItemTitle>Last known location</span>
+            <span matListItemLine>{{ character.location.name }}</span>
+          </mat-list-item>
+          <mat-list-item>
+            <span matListItemTitle>Episodes</span>
+            <span matListItemLine>{{ character.episode.length }}</span>
+          </mat-list-item>
+          <mat-list-item>
+            <span matListItemTitle>Created</span>
+            <span matListItemLine>{{ character.created | date: 'mediumDate' }}</span>
+          </mat-list-item>
+        </mat-list>
+      </div>
+    </mat-card>
+
+    <app-pagination
+      class="detail__pagination"
+      [length]="totalCharacters()"
+      [pageSize]="1"
+      [pageIndex]="character.id - 1"
+      [disabled]="isLoading()"
+      (pageChange)="onPageChange($event)"
+    />
+  }
+</section>

@@ -1,23 +1,52 @@
-# Rick And Morty Angular Project
+# Rick and Morty Explorer
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.7.
+A small, production-quality single-page app for browsing and searching characters from the
+[Rick and Morty API](https://rickandmortyapi.com/), built with **Angular 22**.
 
-## Development server
+## Highlights
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- **Zoneless change detection** — no `zone.js`, powered entirely by Angular signals.
+- **Signal-based store** (`CharacterStore`) using `httpResource` for declarative, reactive
+  data fetching — the API is re-queried automatically whenever the page or filters change.
+- **Standalone components** with `ChangeDetectionStrategy.OnPush` throughout; no `NgModule`s.
+- **Modern control flow** (`@if` / `@for` / `@let`) and the signal-based `input()` / `output()` APIs.
+- **Lazy-loaded routes** with typed route parameter binding (`withComponentInputBinding`).
+- **Angular Material 3** theming with automatic light/dark support.
+- Tooling: **ESLint** (angular-eslint), **Prettier**, and **Karma/Jasmine** unit tests.
 
-## Build
+## Project structure
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+```
+src/app
+├── core
+│   ├── models           # Typed API contracts (Character, PageInfo, filters)
+│   └── services         # CharacterStore — signal-based state + data fetching
+├── features
+│   ├── characters       # Character list page (filter + grid + pagination)
+│   └── character-detail # Single character page
+└── shared
+    └── components        # Reusable UI: header, character-card, character-filter, pagination
+```
 
-## Running unit tests
+## Getting started
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+```bash
+npm install
+npm start          # dev server at http://localhost:4200
+```
 
-## Running end-to-end tests
+## Available scripts
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+| Script            | Description                                |
+| ----------------- | ------------------------------------------ |
+| `npm start`       | Run the development server.                |
+| `npm run build`   | Production build into `dist/`.             |
+| `npm test`        | Run unit tests (Karma + Jasmine).          |
+| `npm run test:ci` | Run unit tests once in headless Chrome.    |
+| `npm run lint`    | Lint TypeScript and templates with ESLint. |
+| `npm run format`  | Format the codebase with Prettier.         |
 
-## Further help
+## API
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Data is served by the public [Rick and Morty API](https://rickandmortyapi.com/documentation).
+The base URL is configured per environment in `src/environments/`.

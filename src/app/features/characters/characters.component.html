@@ -1,0 +1,36 @@
+<section class="characters">
+  <app-character-filter (filterChange)="onFilterChange($event)" />
+
+  <div class="characters__progress" aria-live="polite">
+    @if (isLoading()) {
+      <mat-progress-bar mode="indeterminate" />
+    }
+  </div>
+
+  @if (hasError()) {
+    <div class="characters__state">
+      <mat-icon class="characters__state-icon">cloud_off</mat-icon>
+      <p>Something went wrong while loading characters.</p>
+      <button mat-flat-button color="primary" (click)="retry()">Try again</button>
+    </div>
+  } @else if (notFound()) {
+    <div class="characters__state">
+      <mat-icon class="characters__state-icon">search_off</mat-icon>
+      <p>No characters match your filters.</p>
+    </div>
+  } @else {
+    <div class="characters__grid">
+      @for (character of characters(); track character.id) {
+        <app-character-card [character]="character" />
+      }
+    </div>
+  }
+</section>
+
+<app-pagination
+  class="characters__pagination"
+  [length]="totalCount()"
+  [pageIndex]="page() - 1"
+  [disabled]="isLoading()"
+  (pageChange)="onPageChange($event)"
+/>
