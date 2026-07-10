@@ -1,0 +1,56 @@
+<form class="filter" [formGroup]="form">
+  <mat-form-field appearance="outline" class="filter__field">
+    <mat-label>Name</mat-label>
+    <input matInput type="text" formControlName="name" placeholder="e.g. Rick" />
+    @if (form.controls.name.hasError('minlength')) {
+      <mat-error>At least 3 characters</mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="filter__field">
+    <mat-label>Species</mat-label>
+    <input matInput type="text" formControlName="species" placeholder="e.g. Human" />
+    @if (form.controls.species.hasError('minlength')) {
+      <mat-error>At least 3 characters</mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="filter__field">
+    <mat-label>Type</mat-label>
+    <input matInput type="text" formControlName="type" placeholder="e.g. Parasite" />
+    @if (form.controls.type.hasError('minlength')) {
+      <mat-error>At least 3 characters</mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="filter__field">
+    <mat-label>Status</mat-label>
+    <mat-select formControlName="status">
+      <mat-option value="">All</mat-option>
+      @for (status of statuses; track status) {
+        <mat-option [value]="status.toLowerCase()">{{ status }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="filter__field">
+    <mat-label>Gender</mat-label>
+    <mat-select formControlName="gender">
+      <mat-option value="">All</mat-option>
+      @for (gender of genders; track gender) {
+        <mat-option [value]="gender.toLowerCase()">{{ gender }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+
+  <button
+    type="button"
+    mat-stroked-button
+    class="filter__reset"
+    [disabled]="form.pristine"
+    (click)="reset()"
+  >
+    <mat-icon>clear</mat-icon>
+    Clear
+  </button>
+</form>

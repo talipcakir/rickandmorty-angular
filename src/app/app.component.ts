@@ -1,21 +1,19 @@
-import {Component} from '@angular/core';
-import {RouterOutlet} from '@angular/router';
-import {HttpClientModule} from "@angular/common/http";
-import {HeaderComponent} from "./core/components/header/header.component";
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+
+import { HeaderComponent } from './shared/components/header/header.component';
 
 @Component({
   selector: 'app-root',
-  standalone: true,
-  imports: [
-    RouterOutlet,
-    HttpClientModule,
-    HeaderComponent
-  ],
+  imports: [RouterOutlet, HeaderComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <app-header [title]="title"></app-header>
-    <router-outlet/>
-  `
+    <app-header [title]="title" />
+    <main>
+      <router-outlet />
+    </main>
+  `,
 })
 export class AppComponent {
-  title = 'The Rick and Morty - Angular Project';
+  protected readonly title = 'Rick and Morty Explorer';
 }

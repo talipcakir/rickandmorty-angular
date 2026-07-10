@@ -1,36 +1,39 @@
-export interface HttpResponse {
-  info?: Info
-  results?: CharacterModel[]
+export type CharacterStatus = 'Alive' | 'Dead' | 'unknown';
+
+export type CharacterGender = 'Female' | 'Male' | 'Genderless' | 'unknown';
+
+/** A named reference to another API resource (origin, last known location, ...). */
+export interface ResourceRef {
+  readonly name: string;
+  readonly url: string;
 }
 
-export interface Info {
-  count: number
-  pages: number
-  next: string
-  prev: string
+/** A single Rick and Morty character. */
+export interface Character {
+  readonly id: number;
+  readonly name: string;
+  readonly status: CharacterStatus;
+  readonly species: string;
+  readonly type: string;
+  readonly gender: CharacterGender;
+  readonly origin: ResourceRef;
+  readonly location: ResourceRef;
+  readonly image: string;
+  readonly episode: readonly string[];
+  readonly url: string;
+  readonly created: string;
 }
 
-export interface CharacterModel {
-  id: number
-  name: string
-  status: string
-  species: string
-  type: string
-  gender: string
-  origin?: Origin
-  location?: Location
-  image: string
-  episode?: string[]
-  url?: string
-  created?: string
+/** Pagination metadata returned alongside a list of characters. */
+export interface PageInfo {
+  readonly count: number;
+  readonly pages: number;
+  readonly next: string | null;
+  readonly prev: string | null;
 }
 
-export interface Origin {
-  name: string
-  url: string
-}
-
-export interface Location {
-  name: string
-  url: string
+/** Shape of the `/character` list endpoint response. */
+export interface CharacterListResponse {
+  readonly info: PageInfo;
+  readonly results: readonly Character[];
 }

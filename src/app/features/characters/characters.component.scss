@@ -1,0 +1,40 @@
+.characters {
+  padding: 1rem clamp(1rem, 4vw, 2rem) 6rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.characters__progress {
+  min-height: 4px;
+  margin: 0.75rem 0;
+}
+
+.characters__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1.25rem;
+}
+
+.characters__state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 4rem 1rem;
+  text-align: center;
+  opacity: 0.75;
+}
+
+.characters__state-icon {
+  font-size: 3rem;
+  width: 3rem;
+  height: 3rem;
+}
+
+.characters__pagination {
+  position: fixed;
+  inset-inline: 0;
+  bottom: 0;
+  display: block;
+  z-index: 5;
+}

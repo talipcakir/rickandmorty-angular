@@ -1,0 +1,16 @@
+.filter {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.5rem 1rem;
+  align-items: start;
+}
+
+.filter__field {
+  width: 100%;
+}
+
+.filter__reset {
+  align-self: center;
+  justify-self: start;
+  height: 3.5rem;
+}
