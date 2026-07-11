@@ -1,3 +1,7 @@
+import type { ListResponse } from './list-response.model';
+
+export type { PageInfo } from './list-response.model';
+
 export type CharacterStatus = 'Alive' | 'Dead' | 'unknown';
 
 export type CharacterGender = 'Female' | 'Male' | 'Genderless' | 'unknown';
@@ -24,16 +28,5 @@ export interface Character {
   readonly created: string;
 }
 
-/** Pagination metadata returned alongside a list of characters. */
-export interface PageInfo {
-  readonly count: number;
-  readonly pages: number;
-  readonly next: string | null;
-  readonly prev: string | null;
-}
-
 /** Shape of the `/character` list endpoint response. */
-export interface CharacterListResponse {
-  readonly info: PageInfo;
-  readonly results: readonly Character[];
-}
+export type CharacterListResponse = ListResponse<Character>;

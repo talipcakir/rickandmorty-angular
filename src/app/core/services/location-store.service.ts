@@ -1,23 +1,22 @@
 import { Injectable } from '@angular/core';
 
 import { environment } from '../../../environments/environment';
-import type { Character } from '../models/character.model';
-import type { CharacterFilter } from '../models/character-filter.model';
+import type { Location, LocationFilter } from '../models/location.model';
 import { createResourceStore } from './resource-store';
 
-/** Reactive, signal-based store for Rick and Morty character list data. */
+/** Reactive, signal-based store for Rick and Morty location list data. */
 @Injectable({ providedIn: 'root' })
-export class CharacterStore {
-  private readonly store = createResourceStore<Character, CharacterFilter>(
-    `${environment.apiBaseUrl}/character`,
+export class LocationStore {
+  private readonly store = createResourceStore<Location, LocationFilter>(
+    `${environment.apiBaseUrl}/location`,
   );
 
   readonly page = this.store.page;
   readonly filter = this.store.filter;
-  readonly characters = this.store.items;
+  readonly locations = this.store.items;
   readonly pageInfo = this.store.pageInfo;
   readonly totalCount = this.store.filteredCount;
-  readonly totalCharacters = this.store.grandTotal;
+  readonly totalLocations = this.store.grandTotal;
   readonly isLoading = this.store.isLoading;
   readonly notFound = this.store.notFound;
   readonly hasError = this.store.hasError;

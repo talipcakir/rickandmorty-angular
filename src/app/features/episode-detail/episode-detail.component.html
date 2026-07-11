@@ -1,0 +1,67 @@
+<section class="detail">
+  <div class="progress" aria-live="polite">
+    @if (isLoading()) {
+      <mat-progress-bar mode="indeterminate" />
+    }
+  </div>
+
+  @if (hasError()) {
+    <div class="state">
+      <mat-icon class="state__icon">videocam_off</mat-icon>
+      <p>We couldn't load this episode.</p>
+      <button mat-flat-button (click)="retry()">Try again</button>
+    </div>
+  } @else if (episode(); as episode) {
+    <mat-card appearance="outlined" class="detail__card">
+      <header class="detail__header">
+        <h1 class="detail__name">{{ episode.name }}</h1>
+        <span class="detail__id">#{{ episode.id }}</span>
+      </header>
+
+      <mat-chip-set aria-label="Episode code and air date">
+        <mat-chip>{{ episode.episode }}</mat-chip>
+        <mat-chip>{{ episode.air_date }}</mat-chip>
+      </mat-chip-set>
+
+      <mat-list role="list" class="detail__list">
+        <mat-list-item>
+          <span matListItemTitle>Episode code</span>
+          <span matListItemLine>{{ episode.episode }}</span>
+        </mat-list-item>
+        <mat-list-item>
+          <span matListItemTitle>Air date</span>
+          <span matListItemLine>{{ episode.air_date }}</span>
+        </mat-list-item>
+        <mat-list-item>
+          <span matListItemTitle>Created</span>
+          <span matListItemLine>{{ episode.created | date: 'mediumDate' }}</span>
+        </mat-list-item>
+      </mat-list>
+    </mat-card>
+
+    <section class="detail__episodes">
+      <h2 class="detail__episodes-title">
+        Characters
+        <span class="page__count">{{ episode.characters.length }}</span>
+      </h2>
+      @if (cast().length) {
+        <div class="grid">
+          @for (character of cast(); track character.id) {
+            <app-character-card [character]="character" />
+          }
+        </div>
+      } @else if (episode.characters.length) {
+        <mat-progress-bar mode="indeterminate" />
+      }
+    </section>
+
+    <app-pagination
+      class="pagination-bar"
+      [length]="totalEpisodes()"
+      [pageSize]="1"
+      [pageIndex]="episode.id - 1"
+      [disabled]="isLoading()"
+      (pageChange)="onPageChange($event)"
+    />
+  }
+</section>

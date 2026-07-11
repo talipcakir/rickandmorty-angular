@@ -1,0 +1,32 @@
+@let item = location();
+
+<mat-card class="card" appearance="outlined">
+  <a class="card__media" [routerLink]="['/location', item.id]" [attr.aria-label]="item.name">
+    <mat-icon class="card__media-icon">public</mat-icon>
+  </a>
+
+  <mat-card-content class="card__content">
+    <a class="card__title" [routerLink]="['/location', item.id]">{{ item.name }}</a>
+
+    <p class="card__meta-top">
+      @if (item.type) {
+        <span class="card__type">{{ item.type }}</span>
+      }
+    </p>
+
+    <ul class="card__facts">
+      <li>
+        <mat-icon>layers</mat-icon>
+        <span><span class="fact-label">Dimension</span><span class="fact-value">{{ item.dimension }}</span></span>
+      </li>
+      <li>
+        <mat-icon>groups</mat-icon>
+        <span><span class="fact-label">Residents</span><span class="fact-value">{{ item.residents.length }}</span></span>
+      </li>
+    </ul>
+  </mat-card-content>
+
+  <mat-card-actions align="end">
+    <a mat-button [routerLink]="['/location', item.id]">Details</a>
+  </mat-card-actions>
+</mat-card>

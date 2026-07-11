@@ -1,0 +1,26 @@
+@let item = episode();
+
+<mat-card class="card" appearance="outlined">
+  <a class="card__media" [routerLink]="['/episode', item.id]" [attr.aria-label]="item.name">
+    <span class="card__code">{{ item.episode }}</span>
+  </a>
+
+  <mat-card-content class="card__content">
+    <a class="card__title" [routerLink]="['/episode', item.id]">{{ item.name }}</a>
+
+    <ul class="card__facts">
+      <li>
+        <mat-icon>event</mat-icon>
+        <span><span class="fact-label">Aired</span><span class="fact-value">{{ item.air_date }}</span></span>
+      </li>
+      <li>
+        <mat-icon>groups</mat-icon>
+        <span><span class="fact-label">Characters</span><span class="fact-value">{{ item.characters.length }}</span></span>
+      </li>
+    </ul>
+  </mat-card-content>
+
+  <mat-card-actions align="end">
+    <a mat-button [routerLink]="['/episode', item.id]">Details</a>
+  </mat-card-actions>
+</mat-card>
