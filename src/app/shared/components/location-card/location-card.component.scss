@@ -16,33 +16,21 @@
   box-shadow: 0 8px 24px var(--portal-glow);
 }
 
+// Locations have no image — a portal gradient band with a centered icon instead.
 .card__media {
-  display: block;
-  position: relative;
-  aspect-ratio: 1 / 1;
-}
-
-.card__media img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-// Status chip floating over the image.
-.card__status {
-  position: absolute;
-  top: 0.6rem;
-  left: 0.6rem;
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  gap: 0.35rem;
-  padding: 0.2rem 0.55rem;
-  border-radius: 999px;
-  font-size: 0.75rem;
-  font-weight: 600;
+  justify-content: center;
+  aspect-ratio: 16 / 7;
+  background: linear-gradient(135deg, var(--portal-green), var(--portal-cyan));
+}
+
+.card__media-icon {
+  width: 3rem;
+  height: 3rem;
+  font-size: 3rem;
   color: #fff;
-  background: rgb(0 0 0 / 0.6);
-  backdrop-filter: blur(4px);
+  opacity: 0.9;
 }
 
 .card__content {
@@ -64,14 +52,13 @@
   color: var(--portal-green);
 }
 
-.card__species {
+.card__meta-top {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 0.4rem;
   margin: 0 0 0.75rem;
-  font-size: 0.9rem;
-  opacity: 0.85;
+  min-height: 1.25rem;
 }
 
 .card__type {
@@ -79,7 +66,6 @@
   border-radius: 6px;
   font-size: 0.7rem;
   font-weight: 600;
-  opacity: 1;
   color: var(--portal-cyan);
   background: color-mix(in srgb, var(--portal-cyan) 15%, transparent);
 }

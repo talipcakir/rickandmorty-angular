@@ -3,28 +3,39 @@
 <mat-card class="card" appearance="outlined">
   <a class="card__media" [routerLink]="['/character', item.id]" [attr.aria-label]="item.name">
     <img mat-card-image [ngSrc]="item.image" [alt]="item.name" width="300" height="300" priority />
+    <span class="card__status" [class]="'card__status--' + item.status.toLowerCase()">
+      <span class="status-dot" [class]="'status-dot--' + item.status.toLowerCase()"></span>
+      {{ item.status }}
+    </span>
   </a>
 
   <mat-card-content class="card__content">
     <a class="card__title" [routerLink]="['/character', item.id]">{{ item.name }}</a>
 
-    <p class="card__status">
-      <span
-        class="card__status-dot"
-        [class]="'card__status-dot--' + item.status.toLowerCase()"
-      ></span>
-      {{ item.status }} — {{ item.species }}
+    <p class="card__species">
+      {{ item.species }}
+      @if (item.type) {
+        <span class="card__type">{{ item.type }}</span>
+      }
     </p>
 
-    <dl class="card__meta">
-      <dt>Gender</dt>
-      <dd>{{ item.gender }}</dd>
-      <dt>Origin</dt>
-      <dd>{{ item.origin.name }}</dd>
-    </dl>
+    <ul class="card__facts">
+      <li>
+        <mat-icon>wc</mat-icon>
+        <span><span class="fact-label">Gender</span><span class="fact-value">{{ item.gender }}</span></span>
+      </li>
+      <li>
+        <mat-icon>public</mat-icon>
+        <span><span class="fact-label">Origin</span><span class="fact-value">{{ item.origin.name }}</span></span>
+      </li>
+      <li>
+        <mat-icon>place</mat-icon>
+        <span><span class="fact-label">Last seen</span><span class="fact-value">{{ item.location.name }}</span></span>
+      </li>
+    </ul>
   </mat-card-content>
 
   <mat-card-actions align="end">
-    <a mat-button color="primary" [routerLink]="['/character', item.id]">Details</a>
+    <a mat-button [routerLink]="['/character', item.id]">Details</a>
   </mat-card-actions>
 </mat-card>

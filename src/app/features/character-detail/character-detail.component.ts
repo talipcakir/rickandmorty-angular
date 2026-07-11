@@ -7,7 +7,7 @@ import {
   numberAttribute,
 } from '@angular/core';
 import { httpResource } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { DatePipe, NgOptimizedImage } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
@@ -19,6 +19,9 @@ import { MatChipsModule } from '@angular/material/chips';
 import { environment } from '../../../environments/environment';
 import { CharacterStore } from '../../core/services/character-store.service';
 import type { Character } from '../../core/models/character.model';
+import type { Episode } from '../../core/models/episode.model';
+import type { Location } from '../../core/models/location.model';
+import { idFromUrl, idsFromUrls } from '../../core/services/api-url.util';
 import { PaginationComponent } from '../../shared/components/pagination/pagination.component';
 
 @Component({
@@ -26,6 +29,7 @@ import { PaginationComponent } from '../../shared/components/pagination/paginati
   imports: [
     DatePipe,
     NgOptimizedImage,
+    RouterLink,
     MatCardModule,
     MatListModule,
     MatProgressBarModule,
@@ -56,6 +60,34 @@ export class CharacterDetailComponent {
   readonly isLoading = this.resource.isLoading;
   readonly hasError = computed(() => this.resource.error() != null);
   readonly totalCharacters = this.store.totalCharacters;
+
+  // ---- Enrichment: episodes this character appears in ----------------------
+  private readonly episodesResource = httpResource<Episode[] | Episode>(() => {
+    const character = this.character();
+    if (!character || character.episode.length === 0) return undefined;
+    return `${environment.apiBaseUrl}/episode/${idsFromUrls(character.episode)}`;
+  });
+  readonly episodes = computed<readonly Episode[]>(() => {
+    if (!this.episodesResource.hasValue()) return [];
+    const value = this.episodesResource.value();
+    return Array.isArray(value) ? value : [value];
+  });
+
+  // ---- Enrichment: origin & last known location details --------------------
+  private readonly originResource = httpResource<Location>(
+    () => this.character()?.origin.url || undefined,
+  );
+  private readonly locationResource = httpResource<Location>(
+    () => this.character()?.location.url || undefined,
+  );
+  readonly origin = computed(() =>
+    this.originResource.hasValue() ? this.originResource.value() : undefined,
+  );
+  readonly location = computed(() =>
+    this.locationResource.hasValue() ? this.locationResource.value() : undefined,
+  );
+
+  readonly episodeId = idFromUrl;
 
   onPageChange(id: number): void {
     void this.router.navigate(['/character', id]);

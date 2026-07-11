@@ -3,13 +3,20 @@
   top: 0;
   z-index: 10;
   display: flex;
-  justify-content: space-between;
-  gap: 1rem;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  background: color-mix(in srgb, var(--mat-sys-surface) 88%, transparent);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--mat-sys-outline-variant);
 }
 
 .header__brand {
-  font-size: 1.1rem;
-  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
   color: inherit;
   text-decoration: none;
   white-space: nowrap;
@@ -17,12 +24,48 @@
   text-overflow: ellipsis;
 }
 
+// Spinning portal orb next to the brand.
+.header__portal {
+  width: 1.1rem;
+  height: 1.1rem;
+  border-radius: 50%;
+  flex: 0 0 auto;
+  background: radial-gradient(circle at 50% 50%, #fff 0%, var(--portal-green) 45%, var(--portal-cyan) 100%);
+  box-shadow: 0 0 10px var(--portal-green);
+  animation: header-portal-spin 6s linear infinite;
+}
+
+@keyframes header-portal-spin {
+  to {
+    filter: hue-rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .header__portal {
+    animation: none;
+  }
+}
+
 .header__nav {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.25rem;
+  margin-inline-start: auto;
 }
 
 .header__link--active {
+  color: var(--portal-green);
   font-weight: 700;
+}
+
+.header__theme {
+  flex: 0 0 auto;
+}
+
+// Collapse nav labels to icons on narrow screens.
+@media (max-width: 560px) {
+  .header__link-label {
+    display: none;
+  }
 }

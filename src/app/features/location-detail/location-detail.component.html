@@ -1,0 +1,71 @@
+<section class="detail">
+  <div class="progress" aria-live="polite">
+    @if (isLoading()) {
+      <mat-progress-bar mode="indeterminate" />
+    }
+  </div>
+
+  @if (hasError()) {
+    <div class="state">
+      <mat-icon class="state__icon">wrong_location</mat-icon>
+      <p>We couldn't load this location.</p>
+      <button mat-flat-button (click)="retry()">Try again</button>
+    </div>
+  } @else if (location(); as location) {
+    <mat-card appearance="outlined" class="detail__card">
+      <header class="detail__header">
+        <h1 class="detail__name">{{ location.name }}</h1>
+        <span class="detail__id">#{{ location.id }}</span>
+      </header>
+
+      <mat-chip-set aria-label="Type and dimension">
+        @if (location.type) {
+          <mat-chip>{{ location.type }}</mat-chip>
+        }
+        @if (location.dimension) {
+          <mat-chip>{{ location.dimension }}</mat-chip>
+        }
+      </mat-chip-set>
+
+      <mat-list role="list" class="detail__list">
+        <mat-list-item>
+          <span matListItemTitle>Type</span>
+          <span matListItemLine>{{ location.type }}</span>
+        </mat-list-item>
+        <mat-list-item>
+          <span matListItemTitle>Dimension</span>
+          <span matListItemLine>{{ location.dimension }}</span>
+        </mat-list-item>
+        <mat-list-item>
+          <span matListItemTitle>Created</span>
+          <span matListItemLine>{{ location.created | date: 'mediumDate' }}</span>
+        </mat-list-item>
+      </mat-list>
+
+      <section class="detail__residents">
+        <h2 class="detail__episodes-title">
+          Residents
+          <span class="page__count">{{ location.residents.length }}</span>
+        </h2>
+        @if (residents().length) {
+          <div class="grid">
+            @for (character of residents(); track character.id) {
+              <app-character-card [character]="character" />
+            }
+          </div>
+        } @else if (location.residents.length) {
+          <mat-progress-bar mode="indeterminate" />
+        }
+      </section>
+    </mat-card>
+
+    <app-pagination
+      class="pagination-bar"
+      [length]="totalLocations()"
+      [pageSize]="1"
+      [pageIndex]="location.id - 1"
+      [disabled]="isLoading()"
+      (pageChange)="onPageChange($event)"
+    />
+  }
+</section>

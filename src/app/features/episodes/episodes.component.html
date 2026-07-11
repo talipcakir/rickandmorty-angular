@@ -1,12 +1,12 @@
 <section class="page">
   <div class="page__head">
-    <h1 class="page__title">Characters</h1>
+    <h1 class="page__title">Episodes</h1>
     @if (totalCount()) {
       <span class="page__count">{{ totalCount() }} results</span>
     }
   </div>
 
-  <app-character-filter (filterChange)="onFilterChange($event)" />
+  <app-episode-filter (filterChange)="onFilterChange($event)" />
 
   <div class="progress" aria-live="polite">
     @if (isLoading()) {
@@ -17,18 +17,18 @@
   @if (hasError()) {
     <div class="state">
       <mat-icon class="state__icon">cloud_off</mat-icon>
-      <p>Something went wrong while loading characters.</p>
+      <p>Something went wrong while loading episodes.</p>
       <button mat-flat-button (click)="retry()">Try again</button>
     </div>
   } @else if (notFound()) {
     <div class="state">
       <mat-icon class="state__icon">search_off</mat-icon>
-      <p>No characters match your filters.</p>
+      <p>No episodes match your filters.</p>
     </div>
   } @else {
     <div class="grid">
-      @for (character of characters(); track character.id) {
-        <app-character-card [character]="character" />
+      @for (episode of episodes(); track episode.id) {
+        <app-episode-card [episode]="episode" />
       }
     </div>
   }

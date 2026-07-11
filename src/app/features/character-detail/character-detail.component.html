@@ -1,26 +1,34 @@
 <section class="detail">
-  <div class="detail__progress" aria-live="polite">
+  <div class="progress" aria-live="polite">
     @if (isLoading()) {
       <mat-progress-bar mode="indeterminate" />
     }
   </div>
 
   @if (hasError()) {
-    <div class="detail__state">
-      <mat-icon class="detail__state-icon">person_off</mat-icon>
+    <div class="state">
+      <mat-icon class="state__icon">person_off</mat-icon>
       <p>We couldn't load this character.</p>
-      <button mat-flat-button color="primary" (click)="retry()">Try again</button>
+      <button mat-flat-button (click)="retry()">Try again</button>
     </div>
   } @else if (character(); as character) {
     <mat-card appearance="outlined" class="detail__card">
-      <img
-        class="detail__image"
-        [ngSrc]="character.image"
-        [alt]="character.name"
-        width="300"
-        height="300"
-        priority
-      />
+      <div class="detail__hero">
+        <img
+          class="detail__image"
+          [ngSrc]="character.image"
+          [alt]="character.name"
+          width="300"
+          height="300"
+          priority
+        />
+        <span
+          class="detail__status detail__status--{{ character.status.toLowerCase() }}"
+        >
+          <span class="status-dot status-dot--{{ character.status.toLowerCase() }}"></span>
+          {{ character.status }}
+        </span>
+      </div>
 
       <div class="detail__body">
         <header class="detail__header">
@@ -28,41 +36,71 @@
           <span class="detail__id">#{{ character.id }}</span>
         </header>
 
-        <mat-chip-set aria-label="Status and species">
-          <mat-chip [class]="'detail__chip--' + character.status.toLowerCase()">
-            {{ character.status }}
-          </mat-chip>
+        <mat-chip-set aria-label="Species and gender">
           <mat-chip>{{ character.species }}</mat-chip>
           <mat-chip>{{ character.gender }}</mat-chip>
+          @if (character.type) {
+            <mat-chip>{{ character.type }}</mat-chip>
+          }
         </mat-chip-set>
 
         <mat-list role="list" class="detail__list">
           <mat-list-item>
-            <span matListItemTitle>Type</span>
-            <span matListItemLine>{{ character.type || '—' }}</span>
-          </mat-list-item>
-          <mat-list-item>
             <span matListItemTitle>Origin</span>
-            <span matListItemLine>{{ character.origin.name }}</span>
+            <a
+              matListItemLine
+              class="detail__link"
+              [routerLink]="['/location', origin()?.id]"
+              [class.detail__link--plain]="!origin()"
+            >
+              {{ character.origin.name }}
+              @if (origin(); as o) {
+                <span class="detail__sub">· {{ o.type }} · {{ o.dimension }}</span>
+              }
+            </a>
           </mat-list-item>
           <mat-list-item>
             <span matListItemTitle>Last known location</span>
-            <span matListItemLine>{{ character.location.name }}</span>
-          </mat-list-item>
-          <mat-list-item>
-            <span matListItemTitle>Episodes</span>
-            <span matListItemLine>{{ character.episode.length }}</span>
+            <a
+              matListItemLine
+              class="detail__link"
+              [routerLink]="['/location', location()?.id]"
+              [class.detail__link--plain]="!location()"
+            >
+              {{ character.location.name }}
+              @if (location(); as l) {
+                <span class="detail__sub">· {{ l.type }} · {{ l.dimension }}</span>
+              }
+            </a>
           </mat-list-item>
           <mat-list-item>
             <span matListItemTitle>Created</span>
             <span matListItemLine>{{ character.created | date: 'mediumDate' }}</span>
           </mat-list-item>
         </mat-list>
+
+        <section class="detail__episodes">
+          <h2 class="detail__episodes-title">
+            Episodes
+            <span class="page__count">{{ character.episode.length }}</span>
+          </h2>
+          @if (episodes().length) {
+            <div class="chips">
+              @for (episode of episodes(); track episode.id) {
+                <a class="chip" [routerLink]="['/episode', episode.id]">
+                  <strong>{{ episode.episode }}</strong> {{ episode.name }}
+                </a>
+              }
+            </div>
+          } @else {
+            <mat-progress-bar mode="indeterminate" />
+          }
+        </section>
       </div>
     </mat-card>
 
     <app-pagination
-      class="detail__pagination"
+      class="pagination-bar"
       [length]="totalCharacters()"
       [pageSize]="1"
       [pageIndex]="character.id - 1"
